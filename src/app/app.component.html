@@ -1,0 +1,46 @@
+<mat-accordion
+  [multi]="true"
+  cdkDropListGroup
+  cdkDropList
+  [cdkDropListData]="nestedArray"
+  (cdkDropListDropped)="dropItem($event)"
+>
+  <div *cdkDragPlaceholder></div>
+  <mat-expansion-panel
+    cdkDrag
+    [cdkDragData]="parent"
+    class="expansion-bg mat-elevation-z0 cursor-move example-list"
+    *ngFor="let parent of nestedArray; let i = index"
+    #chapterExpansionPanel
+    (mouseenter)="mouseEnterHandler($event, chapterExpansionPanel)"
+    [id]="idList"
+  >
+    <mat-expansion-panel-header class="cursor-move">
+      <mat-panel-title>
+        <span class="accordion-header-span cursor-pointer example-box">{{
+          parent.title
+        }}</span>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <ng-container>
+      <div
+        cdkDropList
+        [id]="parent.id"
+        [cdkDropListData]="parent.child"
+        [cdkDropListConnectedTo]="idList"
+        class="item-list"
+        (cdkDropListDropped)="dropItem($event)"
+      >
+        <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
+        <div
+          class="item-box"
+          class="sub-lesson cursor-move"
+          *ngFor="let child of parent.child; let j = index"
+          cdkDrag
+        >
+          <span class="cursor-pointer example-box">{{ child.title }}</span>
+        </div>
+      </div>
+    </ng-container>
+  </mat-expansion-panel>
+</mat-accordion>
